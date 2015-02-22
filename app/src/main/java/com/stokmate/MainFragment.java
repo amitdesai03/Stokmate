@@ -62,7 +62,7 @@ public class MainFragment extends Fragment implements SocialNetworkManager.OnIni
         String TWITTER_CALLBACK_URL = "oauth://ASNE";
         String LINKEDIN_CONSUMER_KEY = getActivity().getString(R.string.linkedin_consumer_key);
         String LINKEDIN_CONSUMER_SECRET = getActivity().getString(R.string.linkedin_consumer_secret);
-        String LINKEDIN_CALLBACK_URL = "https://asneTutorial";
+        String LINKEDIN_CALLBACK_URL = "https://localhost/auth/linkedin/callback";
 
         //Chose permissions
         ArrayList<String> fbScope = new ArrayList<String>();
