@@ -9,18 +9,19 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
-import com.stokmate.backend.myApi.MyApi;
+import com.stokmate.backend.groups.Groups;
+import com.stokmate.backend.groups.model.Group;
 
 import java.io.IOException;
 
 class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
-    private static MyApi myApiService = null;
+    private static Groups groups = null;
     private Context context;
 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
-        if (myApiService == null) {  // Only do this once
-            MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
+        if (groups == null) {  // Only do this once
+            Groups.Builder builder = new Groups.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
                     // options for running against local devappserver
                     // - 10.0.2.2 is localhost's IP address in Android emulator
@@ -34,14 +35,19 @@ class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> 
                     });
             // end options for devappserver
 
-            myApiService = builder.build();
+            groups = builder.build();
         }
 
         context = params[0].first;
         String name = params[0].second;
 
         try {
-            return myApiService.sayHi(name).execute().getData();
+            Group group = new Group();
+            group.setId(234L);
+            group.setName("a1");
+            group.setAdmin("a2");
+            groups.add(group).execute();
+            return groups.get(234L).execute().getAdmin();
         } catch (IOException e) {
             return e.getMessage();
         }

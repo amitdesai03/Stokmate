@@ -7,6 +7,10 @@ public class Response {
     private int status;
     private String message;
 
+    public Response(){
+
+    }
+
     public int getStatus() {
         return status;
     }

@@ -28,24 +28,15 @@
         <div class="content">
             <p class="largetext">We’re Launching Soon</p>
 
-            <p class="smalltext"></p>
+            <p class="smalltext"><br/><br/></p>
         </div>
 
         <div class="bottom">
             <div class="form">
-                <input type="text" class="field" id="test" value="Enter Your Email Address"/>
-                <input class="submit" type="button" value="Get Notified" />
+                <input type="text" class="field" id="test" placeholder="Enter Your Email Address"/>
+                <input class="submit" type="button" value="Get Notified" onclick="sendEmail();"/>
             </div>
-            <div class="social">
-                <div class="table">
-                    <ul>
-                        <li class="facebook"><a href="#"></a></li>
-                        <li class="youtube"><a href="#"></a	></li>
-                        <li class="googleplus"><a href="#"/></li>
-                        <li class="twitter"><a href="#"/></li>
-                    </ul>
-                </div>
-            </div>
+
 
         </div>
 
@@ -53,17 +44,17 @@
 
 </div>
 <script type="text/javascript">
-var placeholder = $("#test").val();
 
-$("#test").keydown(function() {
-    if (this.value == placeholder) {
-        this.value = '';
+function sendEmail(){
+    var enteredEmail = $("#test").val();
+    if(enteredEmail.trim() == "" ){
+        alert('Please enter valid email address!');
+        return;
     }
-}).blur(function() {
-    if (this.value == '') {
-        this.value = placeholder;
-    }
-});
+    window.open('mailto:contact@stokmate.com?subject=Please notify me on '+enteredEmail);
+}
+
+
 </script>
 </body>
 </html>
