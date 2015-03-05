@@ -1,13 +1,13 @@
-package com.stokmate.backend;
+package com.stokmate.backend.sm.api;
 
 /**
  * Created by amdesai on 2/23/15.
  */
-public class Response {
+public class SMResponse {
     private int status;
     private String message;
 
-    public Response(){
+    public SMResponse(){
 
     }
 

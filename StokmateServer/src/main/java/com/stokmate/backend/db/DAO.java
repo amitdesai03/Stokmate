@@ -1,13 +1,16 @@
-package com.stokmate.db;
+package com.stokmate.backend.db;
 
-import java.io.*;
-import java.sql.*;
 import com.google.appengine.api.utils.SystemProperty;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+
 /**
  * Created by amdesai on 3/3/15.
  */
-public class DBConnector {
-
+public class DAO{
     protected Connection connect()  throws Exception{
         Connection conn = null;
 
@@ -34,5 +37,13 @@ public class DBConnector {
         if (conn != null && !conn.isClosed()) {
             conn.close();
         }
+    }
+
+    protected int execute(PreparedStatement ps) throws Exception{
+        return ps.executeUpdate();
+    }
+
+    protected int execute(Statement st) throws Exception{
+        return -1;
     }
 }
