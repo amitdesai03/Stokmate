@@ -16,6 +16,7 @@ public class MainActivity extends ActionBarActivity implements FragmentManager.O
     public static final String SOCIAL_NETWORK_TAG = "SocialIntegrationMain.SOCIAL_NETWORK_TAG";
     private static ProgressDialog pd;
     static Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,12 +25,22 @@ public class MainActivity extends ActionBarActivity implements FragmentManager.O
         getSupportFragmentManager().addOnBackStackChangedListener(this);
         homeAsUpByBackStack();
 
-        if (savedInstanceState == null) {
+        UserSessionManager session = new UserSessionManager(getApplicationContext());
+        if (savedInstanceState == null || session==null || !session.isUserLoggedIn()) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new MainFragment())
                     .commit();
+        }else{
+            startHome();
         }
-        new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Test"));
+    }
+
+    private void startHome(){
+        HomeFragment home = HomeFragment.newInstance();
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack("home")
+                .replace(R.id.container, home)
+                .commit();
     }
 
     @Override

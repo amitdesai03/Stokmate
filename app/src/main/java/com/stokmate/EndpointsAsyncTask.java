@@ -9,19 +9,20 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
-import com.stokmate.backend.groups.Groups;
-import com.stokmate.backend.groups.model.Group;
+import com.stokmate.backend.sm.Sm;
+import com.stokmate.backend.sm.model.GroupCollection;
+
 
 import java.io.IOException;
 
 class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
-    private static Groups groups = null;
     private Context context;
+    private GroupCollection groups;
 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
-        if (groups == null) {  // Only do this once
-            Groups.Builder builder = new Groups.Builder(AndroidHttp.newCompatibleTransport(),
+
+            Sm.Builder builder = new Sm.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
                     // options for running against local devappserver
                     // - 10.0.2.2 is localhost's IP address in Android emulator
@@ -35,26 +36,32 @@ class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> 
                     });
             // end options for devappserver
 
-            groups = builder.build();
-        }
+            Sm sm = builder.build();
+
 
         context = params[0].first;
-        String name = params[0].second;
+        String call = params[0].second;
 
         try {
-            Group group = new Group();
-            group.setId(234L);
-            group.setName("a1");
-            group.setAdmin("a2");
-            groups.add(group).execute();
-            return groups.get(234L).execute().getAdmin();
-        } catch (IOException e) {
+            if(call.equals("GET_GROUPS")){
+                groups = sm.getGroups().execute();
+
+            }else{
+                throw new Exception("Unsupported SM operation!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return e.getMessage();
         }
+        return "";
     }
 
     @Override
     protected void onPostExecute(String result) {
-        Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+        try {
+            Toast.makeText(context, groups!=null?groups.toPrettyString():"No Groups!", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

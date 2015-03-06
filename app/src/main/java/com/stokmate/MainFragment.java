@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.github.gorbin.asne.core.SocialNetwork;
 import com.github.gorbin.asne.core.SocialNetworkManager;
 import com.github.gorbin.asne.core.listener.OnLoginCompleteListener;
+import com.github.gorbin.asne.core.listener.OnRequestSocialPersonCompleteListener;
+import com.github.gorbin.asne.core.persons.SocialPerson;
 import com.github.gorbin.asne.facebook.FacebookSocialNetwork;
 import com.github.gorbin.asne.googleplus.GooglePlusSocialNetwork;
 import com.github.gorbin.asne.linkedin.LinkedInSocialNetwork;
@@ -21,8 +23,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainFragment extends Fragment implements SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener {
+public class MainFragment extends Fragment implements SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener,OnRequestSocialPersonCompleteListener {
     public static SocialNetworkManager mSocialNetworkManager;
+
     /**
      * SocialNetwork Ids in ASNE:
      * 1 - Twitter
@@ -101,37 +104,17 @@ public class MainFragment extends Fragment implements SocialNetworkManager.OnIni
                 List<SocialNetwork> socialNetworks = mSocialNetworkManager.getInitializedSocialNetworks();
                 for (SocialNetwork socialNetwork : socialNetworks) {
                     socialNetwork.setOnLoginCompleteListener(this);
-                    initSocialNetwork(socialNetwork);
                 }
             }
         }
         return rootView;
     }
 
-    private void initSocialNetwork(SocialNetwork socialNetwork){
-        if(socialNetwork.isConnected()){
-            switch (socialNetwork.getID()){
-                case FacebookSocialNetwork.ID:
-                    facebook.setText("Show Facebook profile");
-                    break;
-                case TwitterSocialNetwork.ID:
-                    twitter.setText("Show Twitter profile");
-                    break;
-                case LinkedInSocialNetwork.ID:
-                    linkedin.setText("Show LinkedIn profile");
-                    break;
-                case GooglePlusSocialNetwork.ID:
-                    googleplus.setText("Show GooglePlus profile");
-                    break;
-            }
-        }
-    }
     @Override
     public void onSocialNetworkManagerInitialized() {
         //when init SocialNetworks - get and setup login only for initialized SocialNetworks
         for (SocialNetwork socialNetwork : mSocialNetworkManager.getInitializedSocialNetworks()) {
             socialNetwork.setOnLoginCompleteListener(this);
-            initSocialNetwork(socialNetwork);
         }
     }
 
@@ -164,15 +147,16 @@ public class MainFragment extends Fragment implements SocialNetworkManager.OnIni
                     Toast.makeText(getActivity(), "Wrong networkId", Toast.LENGTH_LONG).show();
                 }
             } else {
-                startProfile(socialNetwork.getID());
+                startHome();
             }
         }
     };
 
     @Override
     public void onLoginSuccess(int networkId) {
-        MainActivity.hideProgress();
-        startProfile(networkId);
+        SocialNetwork socialNetwork = mSocialNetworkManager.getSocialNetwork(networkId);
+        socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
+        socialNetwork.requestCurrentPerson();
     }
 
     @Override
@@ -181,11 +165,19 @@ public class MainFragment extends Fragment implements SocialNetworkManager.OnIni
         Toast.makeText(getActivity(), "ERROR: " + errorMessage, Toast.LENGTH_LONG).show();
     }
 
-    private void startProfile(int networkId){
-        ProfileFragment profile = ProfileFragment.newInstannce(networkId);
+    private void startHome(){
+        HomeFragment home = HomeFragment.newInstance();
         getActivity().getSupportFragmentManager().beginTransaction()
-                .addToBackStack("profile")
-                .replace(R.id.container, profile)
+                .addToBackStack("home")
+                .replace(R.id.container, home)
                 .commit();
+    }
+
+    @Override
+    public void onRequestSocialPersonSuccess(int i, SocialPerson socialPerson) {
+        UserSessionManager session = new UserSessionManager(getActivity().getApplicationContext());
+        session.createUserLoginSession(socialPerson.name,socialPerson.email);
+        MainActivity.hideProgress();
+        startHome();
     }
 }

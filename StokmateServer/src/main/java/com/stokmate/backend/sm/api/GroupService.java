@@ -16,13 +16,14 @@ import javax.inject.Named;
 @Api(
         name = "sm",
         version = "v1",
+        description = "Stokmate service",
         namespace = @ApiNamespace(
                 ownerDomain = "backend.stokmate.com",
                 ownerName = "backend.stokmate.com",
                 packagePath = ""
         )
 )
-public class GroupService {
+public class GroupService{
 
     private final static Logger logger = Logger.getLogger(GroupService.class.getName());
 
