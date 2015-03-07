@@ -3,6 +3,7 @@ package com.stokmate;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Pair;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -16,8 +17,8 @@ import com.stokmate.backend.sm.model.GroupCollection;
 import java.io.IOException;
 
 class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
-    private Context context;
-    private GroupCollection groups;
+     Context context;
+     GroupCollection groups;
 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
@@ -56,12 +57,5 @@ class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> 
         return "";
     }
 
-    @Override
-    protected void onPostExecute(String result) {
-        try {
-            Toast.makeText(context, groups!=null?groups.toPrettyString():"No Groups!", Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 }

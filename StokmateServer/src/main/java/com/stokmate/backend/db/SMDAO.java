@@ -1,6 +1,6 @@
 package com.stokmate.backend.db;
 
-import com.stokmate.backend.sm.api.Group;
+import com.stokmate.backend.sm.api.model.Group;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

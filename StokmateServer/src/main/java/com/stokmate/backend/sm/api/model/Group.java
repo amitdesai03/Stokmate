@@ -1,6 +1,6 @@
-package com.stokmate.backend.sm.api;
+package com.stokmate.backend.sm.api.model;
 
-public class Group extends SMResponse{
+public class Group extends SMResponse {
     private long id;
     private String name;
     private String admin;

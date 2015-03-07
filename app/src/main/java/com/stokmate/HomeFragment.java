@@ -20,6 +20,7 @@ import com.github.gorbin.asne.googleplus.GooglePlusSocialNetwork;
 import com.github.gorbin.asne.linkedin.LinkedInSocialNetwork;
 import com.github.gorbin.asne.twitter.TwitterSocialNetwork;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -40,6 +41,8 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    private TextView nameView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,15 +50,21 @@ public class HomeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         UserSessionManager session = new UserSessionManager(getActivity().getApplicationContext());
         HashMap<String, String> userDetails = session.getUserDetails();
-        TextView nameView = (TextView) rootView.findViewById(R.id.textView2);
-        TextView emailView = (TextView) rootView.findViewById(R.id.textView3);
-        nameView.setText(userDetails.get(UserSessionManager.KEY_NAME));
-        emailView.setText(userDetails.get(UserSessionManager.KEY_EMAIL));
+        nameView = (TextView) rootView.findViewById(R.id.textView2);
 
         logout = (Button) rootView.findViewById(R.id.logout);
         logout.setOnClickListener(logoutClick);
 
-        new EndpointsAsyncTask().execute(new Pair<Context, String>(this.getActivity(), "GET_GROUPS"));
+        new EndpointsAsyncTask(){
+            @Override
+            protected void onPostExecute(String result) {
+                try {
+                    nameView.setText(groups!=null?groups.toPrettyString():"No Groups!");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.execute(new Pair<Context, String>(this.getActivity(), "GET_GROUPS"));
 
         return rootView;
     }

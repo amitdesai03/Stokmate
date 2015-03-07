@@ -1,12 +1,13 @@
-package com.stokmate.backend.sm.api;
+package com.stokmate.backend.sm.api.service;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.stokmate.backend.db.SMDAO;
 import com.stokmate.backend.db.SMException;
+import com.stokmate.backend.sm.api.model.Group;
+import com.stokmate.backend.sm.api.model.SMResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;

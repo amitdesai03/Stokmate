@@ -1,4 +1,4 @@
-package com.stokmate.backend.sm.api;
+package com.stokmate.backend.sm.api.model;
 
 /**
  * Created by amdesai on 2/23/15.
