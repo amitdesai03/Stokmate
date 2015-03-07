@@ -25,9 +25,10 @@ import javax.inject.Named;
 public class MarketService {
     private final ExternalCallClient extClient = new ExternalCallClient();
     private final ResponseParser parser = new ResponseParser();
+
     @ApiMethod(
             name = "searchStocks",
-            path = "stocks/{query}",
+            path = "stocks/lookup/{query}",
             httpMethod = ApiMethod.HttpMethod.GET
     )
     public List<Stock> searchStocks(@Named("query")String query){
@@ -35,6 +36,24 @@ public class MarketService {
         try{
             String rawResp = extClient.fetch(ExternalEndpoint.YAHOO_SYMBOL_LOOKUP.replace("$1$", query));
             response = parser.parseSymbols(rawResp);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    @ApiMethod(
+            name = "quoteStock",
+            path = "stocks/quote/{query}",
+            httpMethod = ApiMethod.HttpMethod.GET
+    )
+    public List<Stock> quoteStock(@Named("query")String query){
+
+        List<Stock> response = null;
+        try{
+            String yql = extClient.encode(ExternalEndpoint.QUOTE_YQL.replace("$1$", query));
+            String rawResp = extClient.fetch(ExternalEndpoint.YAHOO_QUOTE_LOOKUP.replace("$1$", yql));
+            response = parser.parseQuotes(rawResp);
         }catch (Exception e){
             e.printStackTrace();
         }

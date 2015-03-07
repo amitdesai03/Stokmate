@@ -1,4 +1,4 @@
-package com.stokmate;
+package com.stokmate.ui;
 
 
 import android.os.Bundle;
@@ -18,6 +18,8 @@ import com.github.gorbin.asne.facebook.FacebookSocialNetwork;
 import com.github.gorbin.asne.googleplus.GooglePlusSocialNetwork;
 import com.github.gorbin.asne.linkedin.LinkedInSocialNetwork;
 import com.github.gorbin.asne.twitter.TwitterSocialNetwork;
+import com.stokmate.R;
+import com.stokmate.helper.UserSessionManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;

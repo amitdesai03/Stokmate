@@ -1,4 +1,4 @@
-package com.stokmate;
+package com.stokmate.helper;
 
 import java.util.HashMap;
 
@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+
+import com.stokmate.ui.MainActivity;
 
 public class UserSessionManager {
 

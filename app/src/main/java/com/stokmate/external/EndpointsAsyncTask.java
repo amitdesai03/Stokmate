@@ -1,4 +1,4 @@
-package com.stokmate;
+package com.stokmate.external;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -16,9 +16,9 @@ import com.stokmate.backend.sm.model.GroupCollection;
 
 import java.io.IOException;
 
-class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
      Context context;
-     GroupCollection groups;
+     protected GroupCollection groups;
 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {

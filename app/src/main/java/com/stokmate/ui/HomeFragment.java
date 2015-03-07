@@ -1,8 +1,6 @@
-package com.stokmate;
+package com.stokmate.ui;
 
-import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Pair;
@@ -11,14 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.gorbin.asne.core.SocialNetwork;
 import com.github.gorbin.asne.core.SocialNetworkManager;
-import com.github.gorbin.asne.facebook.FacebookSocialNetwork;
-import com.github.gorbin.asne.googleplus.GooglePlusSocialNetwork;
-import com.github.gorbin.asne.linkedin.LinkedInSocialNetwork;
-import com.github.gorbin.asne.twitter.TwitterSocialNetwork;
+import com.stokmate.R;
+import com.stokmate.external.EndpointsAsyncTask;
+import com.stokmate.helper.UserSessionManager;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -59,7 +55,7 @@ public class HomeFragment extends Fragment {
             @Override
             protected void onPostExecute(String result) {
                 try {
-                    nameView.setText(groups!=null?groups.toPrettyString():"No Groups!");
+                    nameView.setText(groups != null ? groups.toPrettyString() : "No Groups!");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

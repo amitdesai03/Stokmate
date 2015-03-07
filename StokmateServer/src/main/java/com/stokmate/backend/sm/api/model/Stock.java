@@ -10,18 +10,27 @@ public class Stock {
     String type;
     String exchDisp;
     String typeDisp;
+    String lastTradePriceOnly;
+    String change;
+    String percentChange;
+    String volume;
 
     public Stock(){
 
     }
 
-    public Stock(String symbol, String name, String exch, String type, String exchDisp, String typeDisp) {
+    public Stock(String symbol, String name, String exch, String type, String exchDisp, String typeDisp,
+    String lastTradePriceOnly, String change, String percentChange, String volume) {
         this.symbol = symbol;
         this.name = name;
         this.exch = exch;
         this.type = type;
         this.exchDisp = exchDisp;
         this.typeDisp = typeDisp;
+        this.lastTradePriceOnly = lastTradePriceOnly;
+        this.change = change;
+        this.percentChange = percentChange;
+        this.volume = volume;
     }
 
     public String getSymbol() {
@@ -70,5 +79,37 @@ public class Stock {
 
     public void setTypeDisp(String typeDisp) {
         this.typeDisp = typeDisp;
+    }
+
+    public String getLastTradePriceOnly() {
+        return lastTradePriceOnly;
+    }
+
+    public void setLastTradePriceOnly(String lastTradePriceOnly) {
+        this.lastTradePriceOnly = lastTradePriceOnly;
+    }
+
+    public String getChange() {
+        return change;
+    }
+
+    public void setChange(String change) {
+        this.change = change;
+    }
+
+    public String getPercentChange() {
+        return percentChange;
+    }
+
+    public void setPercentChange(String percentChange) {
+        this.percentChange = percentChange;
+    }
+
+    public String getVolume() {
+        return volume;
+    }
+
+    public void setVolume(String volume) {
+        this.volume = volume;
     }
 }

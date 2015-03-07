@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.URLEncoder;
 
 /**
  * Created by amdesai on 3/6/15.
@@ -53,6 +54,10 @@ public class ExternalCallClient {
     public JSONObject fetchJSON(String url) throws Exception {
         JSONObject jsonObj = new JSONObject(fetch(url));
         return jsonObj;
+    }
+
+    public String encode(String data) throws Exception{
+        return URLEncoder.encode(data,"UTF-8");
     }
 
 }
