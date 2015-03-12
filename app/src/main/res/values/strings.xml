@@ -1,10 +1,20 @@
 <resources>
-    <string name="app_name">APP NAME</string>
+    <string name="app_name">Stokmate</string>
 
     <string name="facebook_app_id">642124722581142</string>
     <string name="twitter_consumer_key">Z0lMCJEEV2hZA3Fhe0427vYMC</string>
     <string name="twitter_consumer_secret">nuEwsIsYA4zcoR03kmq93o40EjjsefTCnxRoJFCusG3DA8dg7G</string>
     <string name="linkedin_consumer_key">75ezpdbao6ckhn</string>
     <string name="linkedin_consumer_secret">eOpiOqJHAcA2W0Wy</string>
+    <string name="title_activity_home">HomeActivity</string>
 
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="menu_logout">Logout</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 </resources>

@@ -4,51 +4,88 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFCCCCCC"
-    android:weightSum="1">
+    android:gravity="center">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/app_name"
-        android:id="@+id/textView"
-        android:textSize="52sp"
-        android:textColor="#3b5998"
-        android:gravity="center"/>
 
-    <Button
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login via LinkedIn"
-        android:id="@+id/linkedin"
-        android:layout_gravity="center_horizontal"
-        android:background="#287bbc"
-        android:layout_margin="8dp"
-        android:textColor="#ffffffff"/>
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Login via GooglePlus"
-        android:id="@+id/googleplus"
-        android:background="#D34836"
-        android:layout_margin="8dp"
-        android:textColor="#ffffffff"/>
+        android:layout_weight="1">
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Login via Facebook"
-        android:id="@+id/facebook"
-        android:background="#3b5998"
-        android:layout_margin="8dp"
-        android:textColor="#ffffffff" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_gravity="bottom"
+            android:src="@drawable/logo_burned"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
 
-    <Button
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Sign In"
+            android:id="@+id/loginvia"
+            android:layout_gravity="bottom" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Login via Twitter"
-        android:id="@+id/twitter"
-        android:background="#55ACEE"
-        android:layout_margin="8dp"
-        android:textColor="#ffffffff"/>
+        android:layout_weight="1"
+        android:gravity="top|center"
+        >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/twitterlogin"
+            android:src="@drawable/twitter"
+            android:background="@android:color/transparent"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/googlepluslogin"
+            android:src="@drawable/googleplus"
+            android:background="@android:color/transparent"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/facebooklogin"
+            android:src="@drawable/facebook"
+            android:background="@android:color/transparent"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/linkedinlogin"
+            android:src="@drawable/linkedin"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="(c) 2015 Stokmate"
+            android:id="@+id/textView"
+            android:layout_gravity="bottom" />
+    </LinearLayout>
+
 </LinearLayout>

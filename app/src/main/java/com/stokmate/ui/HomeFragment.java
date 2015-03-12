@@ -1,6 +1,7 @@
 package com.stokmate.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Pair;
@@ -21,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-    private Button logout;
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -42,46 +42,29 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        UserSessionManager session = new UserSessionManager(getActivity().getApplicationContext());
+        if ( session==null || !session.isUserLoggedIn()) {
+            //Go back to login
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+        }
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        UserSessionManager session = new UserSessionManager(getActivity().getApplicationContext());
         HashMap<String, String> userDetails = session.getUserDetails();
-        nameView = (TextView) rootView.findViewById(R.id.textView2);
 
-        logout = (Button) rootView.findViewById(R.id.logout);
-        logout.setOnClickListener(logoutClick);
-
-        new EndpointsAsyncTask(){
-            @Override
-            protected void onPostExecute(String result) {
-                try {
-                    nameView.setText(groups != null ? groups.toPrettyString() : "No Groups!");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.execute(new Pair<Context, String>(this.getActivity(), "GET_GROUPS"));
+//        new EndpointsAsyncTask(){
+//            @Override
+//            protected void onPostExecute(String result) {
+//                try {
+//                    nameView.setText(groups != null ? groups.toPrettyString() : "No Groups!");
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }.execute(new Pair<Context, String>(this.getActivity(), "GET_GROUPS"));
 
         return rootView;
     }
 
-    private View.OnClickListener logoutClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            SocialNetworkManager mSocialNetworkManager = MainFragment.mSocialNetworkManager;
-            if(mSocialNetworkManager!=null) {
-                if (!mSocialNetworkManager.getInitializedSocialNetworks().isEmpty()) {
-                    List<SocialNetwork> socialNetworks = mSocialNetworkManager.getInitializedSocialNetworks();
-                    for (SocialNetwork socialNetwork : socialNetworks) {
-                        if (socialNetwork.isConnected()) {
-                            socialNetwork.logout();
-                        }
-                    }
-                }
-            }
-            UserSessionManager session = new UserSessionManager(getActivity().getApplicationContext());
-            session.logoutUser();
-            getActivity().getSupportFragmentManager().popBackStack();
-        }
-    };
+
 }

@@ -14,7 +14,7 @@ import com.stokmate.R;
 import com.stokmate.helper.UserSessionManager;
 
 
-public class MainActivity extends ActionBarActivity implements FragmentManager.OnBackStackChangedListener {
+public class MainActivity extends ActionBarActivity{
     public static final String SOCIAL_NETWORK_TAG = "SocialIntegrationMain.SOCIAL_NETWORK_TAG";
     private static ProgressDialog pd;
     static Context context;
@@ -24,25 +24,13 @@ public class MainActivity extends ActionBarActivity implements FragmentManager.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = this;
-        getSupportFragmentManager().addOnBackStackChangedListener(this);
-        homeAsUpByBackStack();
 
         UserSessionManager session = new UserSessionManager(getApplicationContext());
-        if (savedInstanceState == null || session==null || !session.isUserLoggedIn()) {
+        if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new MainFragment())
                     .commit();
-        }else{
-            startHome();
         }
-    }
-
-    private void startHome(){
-        HomeFragment home = HomeFragment.newInstance();
-        getSupportFragmentManager().beginTransaction()
-                .addToBackStack("home")
-                .replace(R.id.container, home)
-                .commit();
     }
 
     @Override
@@ -50,19 +38,6 @@ public class MainActivity extends ActionBarActivity implements FragmentManager.O
         return true;
     }
 
-    @Override
-    public void onBackStackChanged() {
-        homeAsUpByBackStack();
-    }
-
-    private void homeAsUpByBackStack() {
-        int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
-        if (backStackEntryCount > 0) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        } else {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        }
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

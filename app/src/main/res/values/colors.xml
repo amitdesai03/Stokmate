@@ -8,4 +8,7 @@
     <color name="linkedin">#287bbc</color>
     <color name="googleplus">#D34836</color>
 
+    <color name="primaryColor">#3F51BF</color>
+    <color name="primaryColorDark">#303F9F</color>
+    <color name="accentColor">#F44336</color>
 </resources>

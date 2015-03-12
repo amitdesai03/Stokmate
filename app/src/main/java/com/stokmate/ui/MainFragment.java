@@ -1,12 +1,14 @@
 package com.stokmate.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.github.gorbin.asne.core.SocialNetwork;
@@ -25,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainFragment extends Fragment implements SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener,OnRequestSocialPersonCompleteListener {
+public class MainFragment extends Fragment implements SocialNetworkManager.OnInitializationCompleteListener, OnLoginCompleteListener, OnRequestSocialPersonCompleteListener {
     public static SocialNetworkManager mSocialNetworkManager;
 
     /**
@@ -38,10 +40,10 @@ public class MainFragment extends Fragment implements SocialNetworkManager.OnIni
      * 6 - Odnoklassniki
      * 7 - Instagram
      */
-    private Button facebook;
-    private Button twitter;
-    private Button linkedin;
-    private Button googleplus;
+    private ImageButton facebook;
+    private ImageButton twitter;
+    private ImageButton linkedin;
+    private ImageButton googleplus;
 
     public MainFragment() {
     }
@@ -50,15 +52,14 @@ public class MainFragment extends Fragment implements SocialNetworkManager.OnIni
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
-        ((MainActivity)getActivity()).getSupportActionBar().setTitle(R.string.app_name);
         // init buttons and set Listener
-        facebook = (Button) rootView.findViewById(R.id.facebook);
+        facebook = (ImageButton) rootView.findViewById(R.id.facebooklogin);
         facebook.setOnClickListener(loginClick);
-        twitter = (Button) rootView.findViewById(R.id.twitter);
+        twitter = (ImageButton) rootView.findViewById(R.id.twitterlogin);
         twitter.setOnClickListener(loginClick);
-        linkedin = (Button) rootView.findViewById(R.id.linkedin);
+        linkedin = (ImageButton) rootView.findViewById(R.id.linkedinlogin);
         linkedin.setOnClickListener(loginClick);
-        googleplus = (Button) rootView.findViewById(R.id.googleplus);
+        googleplus = (ImageButton) rootView.findViewById(R.id.googlepluslogin);
         googleplus.setOnClickListener(loginClick);
 
         //Get Keys for initiate SocialNetworks
@@ -127,28 +128,37 @@ public class MainFragment extends Fragment implements SocialNetworkManager.OnIni
         public void onClick(View view) {
             int networkId = 0;
             switch (view.getId()){
-                case R.id.facebook:
+                case R.id.facebooklogin:
                     networkId = FacebookSocialNetwork.ID;
                     break;
-                case R.id.twitter:
+                case R.id.twitterlogin:
                     networkId = TwitterSocialNetwork.ID;
                     break;
-                case R.id.linkedin:
+                case R.id.linkedinlogin:
                     networkId = LinkedInSocialNetwork.ID;
                     break;
-                case R.id.googleplus:
+                case R.id.googlepluslogin:
                     networkId = GooglePlusSocialNetwork.ID;
                     break;
             }
             SocialNetwork socialNetwork = mSocialNetworkManager.getSocialNetwork(networkId);
+            UserSessionManager session = new UserSessionManager(getActivity().getApplicationContext());
             if(!socialNetwork.isConnected()) {
-                if(networkId != 0) {
+                if (networkId != 0) {
                     socialNetwork.requestLogin();
                     MainActivity.showProgress("Loading social person");
                 } else {
                     Toast.makeText(getActivity(), "Wrong networkId", Toast.LENGTH_LONG).show();
                 }
-            } else {
+            }else if( session==null || !session.isUserLoggedIn()){
+                if (networkId != 0) {
+                    socialNetwork.logout();
+                    socialNetwork.requestLogin();
+                    MainActivity.showProgress("Loading social person");
+                } else {
+                    Toast.makeText(getActivity(), "Wrong networkId", Toast.LENGTH_LONG).show();
+                };
+            }else{
                 startHome();
             }
         }
@@ -168,11 +178,8 @@ public class MainFragment extends Fragment implements SocialNetworkManager.OnIni
     }
 
     private void startHome(){
-        HomeFragment home = HomeFragment.newInstance();
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .addToBackStack("home")
-                .replace(R.id.container, home)
-                .commit();
+        Intent intent = new Intent(this.getActivity(), HomeActivity.class);
+        startActivity(intent);
     }
 
     @Override
